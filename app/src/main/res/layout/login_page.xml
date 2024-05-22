@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- FrameLayout 써야 별 배경 위젯이 가장 뒷단에 위치 하게 됨. -->
+    <com.jj.timecapsule.StarryBackgroundView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TimeCapsule"
+            android:textColor="#FFFFFF"
+            android:textSize="40dp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="로그인해서 나만의 추억을 타임캡슐에 기록 해보세요"
+            android:textColor="#A9A9A9"
+            android:textSize="16dp"
+            android:gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center"/>
+
+        <EditText
+            android:id="@+id/editTextLoginEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="이메일"
+            android:background="@drawable/edit_text_background"
+            android:textColor="#E0E0E0"
+            android:textColorHint="#9CA3AF"
+            android:layout_marginTop="20dp"
+            android:padding="12dp"/>
+
+        <EditText
+            android:id="@+id/editTextLoginPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="비밀번호"
+            android:background="@drawable/edit_text_background"
+            android:textColor="#E0E0E0"
+            android:textColorHint="#9CA3AF"
+            android:layout_marginTop="8dp"
+            android:padding="12dp"
+            android:inputType="textPassword"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
+
+            <Button
+                android:id="@+id/buttonLogin"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:text="로그인"
+                android:backgroundTint="#4f46dc"
+                android:textColor="#FFFFFF"
+                android:padding="12dp"/>
+
+            <Button
+                android:id="@+id/buttonSignup"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="회원가입"
+                android:background="@android:color/transparent"
+                android:textColor="#727ad4"
+                android:padding="12dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+</FrameLayout>
