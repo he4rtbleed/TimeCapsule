@@ -2,6 +2,9 @@ package com.jj.timecapsule;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
@@ -30,6 +33,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         hideSystemUI();
 
-        setContentView(R.layout.login_page);
+        SharedPreferences sharedPreferences = getSharedPreferences("com.jj.timecapsule.PREFERENCE_FILE_KEY", Context.MODE_PRIVATE);
+
+        String token = sharedPreferences.getString("TOKEN", null);
+        if (token == null) {
+            // 토큰이 없으면 로그인 액티비티로 이동
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
+        setContentView(R.layout.activity_main);
     }
 }
