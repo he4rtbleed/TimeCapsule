@@ -1,49 +1,80 @@
 package com.jj.timecapsule;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
+import android.widget.Button;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    //https://erim1005.tistory.com/entry/Full-screen-mode-%EC%A0%84%EC%B2%B4%ED%99%94%EB%A9%B4-%EC%84%A4%EC%A0%95-%ED%95%B4%EC%A0%9C
-    private void hideSystemUI() {
-        // Enables regular immersive mode.
-        // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
-        // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_IMMERSIVE
-                        // Set the content to appear under the system bars so that the
-                        // content doesn't resize when the system bars hide and show.
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        // Hide the nav bar and status bar
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
-    }
+    private SharedPreferences sharedPreferences;
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        hideSystemUI();
+        setContentView(R.layout.activity_main);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("com.jj.timecapsule.PREFERENCE_FILE_KEY", Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("com.jj.timecapsule.PREFERENCE_FILE_KEY", Context.MODE_PRIVATE);
 
-        String token = sharedPreferences.getString("TOKEN", null);
-        if (token == null) {
-            // 토큰이 없으면 로그인 액티비티로 이동
+//        String token = sharedPreferences.getString("TOKEN", null);
+//        if (token == null) {
+//            Log.d(TAG, "Token is null, redirecting to LoginActivity");
+//            try {
+//                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+//                startActivity(intent);
+//                finish();
+//            } catch (Exception e) {
+//                Log.e(TAG, "Error starting LoginActivity", e);
+//            }
+//            return; // onCreate 메서드를 여기서 종료하여 이후 코드가 실행되지 않도록 함
+//        }
+
+        // 닉네임과 회원ID 설정
+        TextView textViewUserInfo = findViewById(R.id.textViewUserInfo);
+        textViewUserInfo.setText("닉네임(회원id)");
+
+        // 로그아웃 버튼 설정
+        Button buttonLogout = findViewById(R.id.buttonLogout);
+        buttonLogout.setOnClickListener(v -> {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.remove("TOKEN");
+            editor.apply();
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
-            return;
-        }
+        });
 
-        setContentView(R.layout.activity_main);
+        // RecyclerView 설정
+        RecyclerView recyclerView = findViewById(R.id.recyclerViewTimeCapsules);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        List<TimeCapsule> timeCapsuleList = new ArrayList<>();
+        timeCapsuleList.add(new TimeCapsule("타임캡슐 1", "23/05/22"));
+        timeCapsuleList.add(new TimeCapsule("타임캡슐 2", "24/05/22"));
+        timeCapsuleList.add(new TimeCapsule("타임캡슐 3", "25/05/22"));
+        timeCapsuleList.add(new TimeCapsule("타임캡슐 4", "26/05/22"));
+        timeCapsuleList.add(new TimeCapsule("타임캡슐 4", "26/05/22"));
+        timeCapsuleList.add(new TimeCapsule("타임캡슐 4", "26/05/22"));
+        timeCapsuleList.add(new TimeCapsule("타임캡슐 4", "26/05/22"));
+        timeCapsuleList.add(new TimeCapsule("타임캡슐 4", "26/05/22"));
+        timeCapsuleList.add(new TimeCapsule("타임캡슐 4", "26/05/22"));
+        timeCapsuleList.add(new TimeCapsule("타임캡슐 4", "26/05/22"));
+        timeCapsuleList.add(new TimeCapsule("타임캡슐 4", "26/05/22"));
+        timeCapsuleList.add(new TimeCapsule("타임캡슐 4", "26/05/22"));
+        timeCapsuleList.add(new TimeCapsule("타임캡슐 4", "26/05/22"));
+        timeCapsuleList.add(new TimeCapsule("타임캡슐 4", "26/05/22"));
+        timeCapsuleList.add(new TimeCapsule("타임캡슐 4", "26/05/22"));
+        timeCapsuleList.add(new TimeCapsule("타임캡슐 4", "26/05/22"));
+        TimeCapsuleAdapter adapter = new TimeCapsuleAdapter(timeCapsuleList);
+        recyclerView.setAdapter(adapter);
     }
 }

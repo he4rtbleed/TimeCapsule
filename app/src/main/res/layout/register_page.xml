@@ -26,10 +26,10 @@
             android:layout_gravity="center"/>
 
         <EditText
-            android:id="@+id/editTextEmail"
+            android:id="@+id/editTextUserId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="이메일"
+            android:hint="회원ID (영소문자+숫자 10자내)"
             android:background="@drawable/edit_text_background"
             android:textColor="#E0E0E0"
             android:textColorHint="#9CA3AF"

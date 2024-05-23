@@ -39,10 +39,10 @@
             android:layout_gravity="center"/>
 
         <EditText
-            android:id="@+id/editTextLoginEmail"
+            android:id="@+id/editTextLoginUserId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="이메일"
+            android:hint="회원ID"
             android:background="@drawable/edit_text_background"
             android:textColor="#E0E0E0"
             android:textColorHint="#9CA3AF"
@@ -75,7 +75,7 @@
                 android:text="로그인"
                 android:backgroundTint="#4f46dc"
                 android:textColor="#FFFFFF"
-                
+
                 android:padding="12dp"/>
 
             <Button
