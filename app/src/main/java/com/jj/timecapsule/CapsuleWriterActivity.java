@@ -3,7 +3,9 @@ package com.jj.timecapsule;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,8 +20,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 public class CapsuleWriterActivity extends AppCompatActivity implements OnMapReadyCallback {
     //구글맵 관련 변수
@@ -34,6 +38,11 @@ public class CapsuleWriterActivity extends AppCompatActivity implements OnMapRea
 
     //위치 정보 저장 변수
     private Location lastKnownLocation;
+
+    // 사용자가 선택한 위치를 저장할 변수
+    private LatLng selectedLocation;
+    //UI 변수
+    BottomSheetBehavior<LinearLayout> bottomSheetBehavior;
 
     //https://developers.google.com/maps/documentation/android-sdk/current-place-tutorial?hl=ko
     private void getLocationPermission() {
@@ -85,6 +94,22 @@ public class CapsuleWriterActivity extends AppCompatActivity implements OnMapRea
 
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
+
+        // 지도 클릭하여 위치 저장
+        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                selectedLocation = latLng; // 사용자가 선택한 위치를 저장
+                map.clear(); // 기존 마커 제거
+                map.addMarker(new MarkerOptions().position(latLng).title("Selected Location")); // 새로운 마커 추가
+                map.moveCamera(CameraUpdateFactory.newLatLng(latLng)); // 카메라를 클릭한 위치로 이동
+
+                // 작동하는지 확인
+                Toast.makeText(CapsuleWriterActivity.this, "Location Selected: " + latLng.latitude + ", " + latLng.longitude, Toast.LENGTH_SHORT).show();
+                Log.d("CapsuleWriterActivity", "Location Selected: " + latLng.latitude + ", " + latLng.longitude);
+
+            }
+        });
     }
 
     // 위치 업데이트 메서드
@@ -149,9 +174,15 @@ public class CapsuleWriterActivity extends AppCompatActivity implements OnMapRea
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        // 드로어 레이아웃 설정
-        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
-        LinearLayout drawerContent = findViewById(R.id.drawer_content);
-        drawerContent.setOnClickListener(v -> drawerLayout.closeDrawers());
+        // BottomSheetBehavior 설정
+        bottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.bottom_sheet));
+
+//        bottomSheet.setOnClickListener(v -> {
+//            if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+//                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+//            } else {
+//                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+//            }
+//        });
     }
 }
