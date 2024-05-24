@@ -20,6 +20,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 public class CapsuleWriterActivity extends AppCompatActivity implements OnMapReadyCallback {
     //구글맵 관련 변수
@@ -34,6 +35,9 @@ public class CapsuleWriterActivity extends AppCompatActivity implements OnMapRea
 
     //위치 정보 저장 변수
     private Location lastKnownLocation;
+
+    //UI 변수
+    BottomSheetBehavior<LinearLayout> bottomSheetBehavior;
 
     //https://developers.google.com/maps/documentation/android-sdk/current-place-tutorial?hl=ko
     private void getLocationPermission() {
@@ -149,9 +153,15 @@ public class CapsuleWriterActivity extends AppCompatActivity implements OnMapRea
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        // 드로어 레이아웃 설정
-        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
-        LinearLayout drawerContent = findViewById(R.id.drawer_content);
-        drawerContent.setOnClickListener(v -> drawerLayout.closeDrawers());
+        // BottomSheetBehavior 설정
+        bottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.bottom_sheet));
+
+//        bottomSheet.setOnClickListener(v -> {
+//            if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+//                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+//            } else {
+//                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+//            }
+//        });
     }
 }
