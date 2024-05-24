@@ -76,5 +76,18 @@ public class MainActivity extends AppCompatActivity {
         timeCapsuleList.add(new TimeCapsule("타임캡슐 4", "26/05/22"));
         TimeCapsuleAdapter adapter = new TimeCapsuleAdapter(timeCapsuleList);
         recyclerView.setAdapter(adapter);
+
+        // "추억 보관하기" 버튼 설정
+        Button buttonAddMemory = findViewById(R.id.buttonAddMemory);
+        buttonAddMemory.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, CapsuleWriterActivity.class);
+            startActivity(intent);
+        });
+
+        // "추억 불러오기" 버튼 설정
+        Button buttonRefreshMemory = findViewById(R.id.buttonRefreshMemory);
+        buttonRefreshMemory.setOnClickListener(v -> {
+            // TODO: 추억 불러오기 기능 구현
+        });
     }
 }
