@@ -29,12 +29,12 @@
             android:id="@+id/editTextUserId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="회원ID (영소문자+숫자 10자내)"
-            android:background="@drawable/edit_text_background"
-            android:textColor="#E0E0E0"
-            android:textColorHint="#9CA3AF"
             android:layout_marginTop="20dp"
-            android:padding="12dp"/>
+            android:background="@drawable/edit_text_background"
+            android:hint="회원ID (영소문자+숫자 10자 이내)"
+            android:padding="12dp"
+            android:textColor="#E0E0E0"
+            android:textColorHint="#9CA3AF" />
 
         <EditText
             android:id="@+id/editTextPassword"
