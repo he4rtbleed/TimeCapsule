@@ -155,13 +155,5 @@ public class CapsuleWriterActivity extends AppCompatActivity implements OnMapRea
 
         // BottomSheetBehavior 설정
         bottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.bottom_sheet));
-
-//        bottomSheet.setOnClickListener(v -> {
-//            if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
-//                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-//            } else {
-//                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-//            }
-//        });
     }
 }
