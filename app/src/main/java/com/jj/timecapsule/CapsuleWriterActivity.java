@@ -1,5 +1,8 @@
 package com.jj.timecapsule;
 
+import static java.lang.Math.round;
+
+import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -21,10 +24,15 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 public class CapsuleWriterActivity extends AppCompatActivity implements OnMapReadyCallback {
+    private static final String TAG = "CapsuleWriterActivity";
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
+
     // 구글맵 관련 변수
     private GoogleMap map;
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -102,6 +110,8 @@ public class CapsuleWriterActivity extends AppCompatActivity implements OnMapRea
                     Toast.makeText(CapsuleWriterActivity.this, "선택한 위치: " + selectedLocation.latitude + ", " + selectedLocation.longitude, Toast.LENGTH_SHORT).show();
                     Log.d("CapsuleWriterActivity", "선택한 위치: " + selectedLocation.latitude + ", " + selectedLocation.longitude);
                 }
+                // 거리 계산 메서드 호출
+                // getDistance();
             }
         });
     }
@@ -128,8 +138,9 @@ public class CapsuleWriterActivity extends AppCompatActivity implements OnMapRea
         }
     }
 
-    // 장치의 현재 위치 가져오기
+    // 장치의 현재 위치 가져오기 메서드
     private void getDeviceLocation() {
+        // 사용자의 현재 위치 가져오기
         try {
             if (locationPermissionGranted) {
                 Task<Location> locationResult = fusedLocationProviderClient.getLastLocation();
@@ -156,7 +167,42 @@ public class CapsuleWriterActivity extends AppCompatActivity implements OnMapRea
             // 위치 권한 관련 예외 처리
         }
     }
+    
+    /*
+    private void getDistance() {    // 거리 구하는 메서드
+        if (checkLocationPermission()) { // 위치 권한 확인
+            FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+            fusedLocationProviderClient.getLastLocation()
+                    .addOnSuccessListener(new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            if (location != null) {
+                                Location testLocal = new Location("testPoint");
+                                testLocal.setLatitude(selectedLocation.latitude);
+                                testLocal.setLongitude(selectedLocation.longitude);
+                                float distance = round(location.distanceTo(testLocal));
+                                Toast.makeText(CapsuleWriterActivity.this, "남은 거리: " + distance + "M", Toast.LENGTH_SHORT).show();
+                                Log.d("CapsuleWriterActivity", "남은 거리: " + distance + "M");
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(CapsuleWriterActivity.this, "위치 정보를 가져오는 데 실패했습니다: " + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                            Log.d("CapsuleWriterActivity", "위치 정보를 가져오는 데 실패했습니다: " + e.getLocalizedMessage());
+                        }
+                    });
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
+        }
+    }
 
+    private boolean checkLocationPermission() {
+        int permissionState = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        return permissionState == PackageManager.PERMISSION_GRANTED;
+    }
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
