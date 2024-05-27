@@ -1,6 +1,12 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.application")
 }
+
+var properties = Properties()
+properties.load(FileInputStream("local.properties"))
 
 android {
     namespace = "com.jj.timecapsule"
@@ -14,6 +20,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        //AndroidManifest.xml 에서 local.properties 의 API_KEY 참조 가능하도록 설정
+        manifestPlaceholders["MAPS_API_KEY"] = properties.getProperty("API_KEY")
     }
 
     buildTypes {

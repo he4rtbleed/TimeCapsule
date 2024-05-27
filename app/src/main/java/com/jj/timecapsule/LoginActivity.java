@@ -27,10 +27,7 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-import okhttp3.OkHttpClient;
-
 public class LoginActivity extends AppCompatActivity {
-    private final OkHttpClient client = new OkHttpClient();
     private EditText editTextLoginUserId;
     private EditText editTextLoginPassword;
     private Button buttonLogin;
