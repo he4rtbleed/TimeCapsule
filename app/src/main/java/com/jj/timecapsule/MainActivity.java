@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,22 +28,18 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("com.jj.timecapsule.PREFERENCE_FILE_KEY", Context.MODE_PRIVATE);
 
-//        String token = sharedPreferences.getString("TOKEN", null);
-//        if (token == null) {
-//            Log.d(TAG, "Token is null, redirecting to LoginActivity");
-//            try {
-//                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-//                startActivity(intent);
-//                finish();
-//            } catch (Exception e) {
-//                Log.e(TAG, "Error starting LoginActivity", e);
-//            }
-//            return; // onCreate 메서드를 여기서 종료하여 이후 코드가 실행되지 않도록 함
-//        }
+        String token = sharedPreferences.getString("TOKEN", null);
+        if (token == null) {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+
+            return; //토큰 없으면 여기까지 초기화
+        }
 
         // 닉네임과 회원ID 설정
         TextView textViewUserInfo = findViewById(R.id.textViewUserInfo);
-        textViewUserInfo.setText("닉네임(회원id)");
+        textViewUserInfo.setText("환영합니다 " + token + "님");
 
         // 로그아웃 버튼 설정
         Button buttonLogout = findViewById(R.id.buttonLogout);
