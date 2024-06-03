@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">TimeCapsule</string>
+    <string-array name="genders">
+        <item>남</item>
+        <item>여</item>
+        <item>그 외</item>
+    </string-array>
+</resources>
