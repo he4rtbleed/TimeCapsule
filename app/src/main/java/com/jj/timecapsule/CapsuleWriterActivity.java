@@ -1,25 +1,16 @@
 package com.jj.timecapsule;
 
-<<<<<<< Updated upstream
-import static java.lang.Math.round;
-
-import android.Manifest;
-=======
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
->>>>>>> Stashed changes
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-<<<<<<< Updated upstream
-import android.util.Log;
-=======
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -29,7 +20,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
->>>>>>> Stashed changes
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -53,8 +43,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
@@ -69,44 +57,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CapsuleWriterActivity extends AppCompatActivity implements OnMapReadyCallback {
-<<<<<<< Updated upstream
-    private static final String TAG = "CapsuleWriterActivity";
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
-=======
     private static final int REQUEST_IMAGE_PICK = 2;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private static final int PERMISSIONS_REQUEST_READ_STORAGE = 3;
     private static final int PERMISSIONS_REQUEST_MANAGE_STORAGE = 4;
->>>>>>> Stashed changes
 
     // 구글맵 관련 변수
     private GoogleMap map;
     private FusedLocationProviderClient fusedLocationProviderClient;
 
-<<<<<<< Updated upstream
-    // 위치권한 관련 변수
-=======
     // 위치 정보 저장 변수
     private Location lastKnownLocation;
     private LatLng selectedLocation;
->>>>>>> Stashed changes
     private final LatLng defaultLocation = new LatLng(-33.8523341, 151.2106085);
     private static final int DEFAULT_ZOOM = 15;
     private boolean locationPermissionGranted;
 
-<<<<<<< Updated upstream
-    // 위치 정보 저장 변수
-    private Location lastKnownLocation;
-
-    // 사용자가 선택한 위치를 저장할 변수
-    private LatLng selectedLocation;
-
-=======
     // 사진 이름 저장 변수
     private String selectedImageName;
     private String selectedImagePath;
 
->>>>>>> Stashed changes
     // UI 변수
     BottomSheetBehavior<LinearLayout> bottomSheetBehavior;
     private EditText editTextTitle;
@@ -119,10 +89,6 @@ public class CapsuleWriterActivity extends AppCompatActivity implements OnMapRea
 
     // 위치 권한 요청 메서드
     private void getLocationPermission() {
-<<<<<<< Updated upstream
-        // 위치 권한 요청. 권한 요청 결과는 onRequestPermissionsResult 콜백으로 처리됨
-=======
->>>>>>> Stashed changes
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -161,16 +127,9 @@ public class CapsuleWriterActivity extends AppCompatActivity implements OnMapRea
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-<<<<<<< Updated upstream
-        locationPermissionGranted = false;
-        if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
-            // 요청이 취소된 경우 결과 배열은 비어 있음
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-=======
         if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
->>>>>>> Stashed changes
                 locationPermissionGranted = true;
                 updateLocationUI();
             }
@@ -186,9 +145,6 @@ public class CapsuleWriterActivity extends AppCompatActivity implements OnMapRea
         }
     }
 
-<<<<<<< Updated upstream
-    // 맵 준비된 경우 이벤트 핸들러
-=======
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -212,7 +168,6 @@ public class CapsuleWriterActivity extends AppCompatActivity implements OnMapRea
     }
 
     // 맵 준비된 경우 이벤트핸들러
->>>>>>> Stashed changes
     @Override
     public void onMapReady(GoogleMap map) {
         this.map = map;
@@ -223,15 +178,8 @@ public class CapsuleWriterActivity extends AppCompatActivity implements OnMapRea
         // "현재 위치" 버튼 활성화
         updateLocationUI();
 
-<<<<<<< Updated upstream
-        // 장치의 현재 위치를 파악하고 지도의 위치를 설정
-        getDeviceLocation();
-
-        // 지도 클릭하여 위치 저장
-=======
         // 디바이스의 현재 위치 가져오기
         getDeviceLocation();
->>>>>>> Stashed changes
         map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
@@ -245,11 +193,6 @@ public class CapsuleWriterActivity extends AppCompatActivity implements OnMapRea
                     Toast.makeText(CapsuleWriterActivity.this, "선택한 위치: " + selectedLocation.latitude + ", " + selectedLocation.longitude, Toast.LENGTH_SHORT).show();
                     Log.d("CapsuleWriterActivity", "선택한 위치: " + selectedLocation.latitude + ", " + selectedLocation.longitude);
                 }
-<<<<<<< Updated upstream
-                // 거리 계산 메서드 호출
-                // getDistance();
-=======
->>>>>>> Stashed changes
             }
         });
     }
@@ -272,42 +215,27 @@ public class CapsuleWriterActivity extends AppCompatActivity implements OnMapRea
                 getLocationPermission();
             }
         } catch (SecurityException e) {
-<<<<<<< Updated upstream
-            // 위치 권한 관련 예외 처리
-        }
-    }
-
-    // 장치의 현재 위치 가져오기 메서드
-    private void getDeviceLocation() {
-        // 사용자의 현재 위치 가져오기
-=======
             Log.e("Exception: %s", e.getMessage());
         }
     }
 
     // 디바이스 위치 가져오기
     private void getDeviceLocation() {
->>>>>>> Stashed changes
         try {
             if (locationPermissionGranted) {
                 Task<Location> locationResult = fusedLocationProviderClient.getLastLocation();
                 locationResult.addOnCompleteListener(this, new OnCompleteListener<Location>() {
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
-<<<<<<< Updated upstream
-                        if (task.isSuccessful() && task.getResult() != null) {
-                            // 요청이 성공하고 위치 정보가 있는 경우
-=======
                         if (task.isSuccessful()) {
                             // 현재 위치로 카메라 이동
->>>>>>> Stashed changes
                             lastKnownLocation = task.getResult();
-                            // 지도의 카메라를 현재 위치로 이동
-                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                    new LatLng(lastKnownLocation.getLatitude(),
-                                            lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                            if (lastKnownLocation != null) {
+                                map.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                        new LatLng(lastKnownLocation.getLatitude(),
+                                                lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                            }
                         } else {
-                            // 위치 정보가 없는 경우 기본 위치로 이동
                             map.moveCamera(CameraUpdateFactory
                                     .newLatLngZoom(defaultLocation, DEFAULT_ZOOM));
                             map.getUiSettings().setMyLocationButtonEnabled(false);
@@ -316,52 +244,10 @@ public class CapsuleWriterActivity extends AppCompatActivity implements OnMapRea
                 });
             }
         } catch (SecurityException e) {
-<<<<<<< Updated upstream
-            // 위치 권한 관련 예외 처리
-        }
-    }
-    
-    /*
-    private void getDistance() {    // 거리 구하는 메서드
-        if (checkLocationPermission()) { // 위치 권한 확인
-            FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-            fusedLocationProviderClient.getLastLocation()
-                    .addOnSuccessListener(new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            if (location != null) {
-                                Location testLocal = new Location("testPoint");
-                                testLocal.setLatitude(selectedLocation.latitude);
-                                testLocal.setLongitude(selectedLocation.longitude);
-                                float distance = round(location.distanceTo(testLocal));
-                                Toast.makeText(CapsuleWriterActivity.this, "남은 거리: " + distance + "M", Toast.LENGTH_SHORT).show();
-                                Log.d("CapsuleWriterActivity", "남은 거리: " + distance + "M");
-                            }
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(CapsuleWriterActivity.this, "위치 정보를 가져오는 데 실패했습니다: " + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                            Log.d("CapsuleWriterActivity", "위치 정보를 가져오는 데 실패했습니다: " + e.getLocalizedMessage());
-                        }
-                    });
-        } else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
-        }
-    }
-
-    private boolean checkLocationPermission() {
-        int permissionState = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        return permissionState == PackageManager.PERMISSION_GRANTED;
-    }
-    */
-=======
             Log.e("Exception: %s", e.getMessage());
         }
     }
 
->>>>>>> Stashed changes
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

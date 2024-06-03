@@ -1,14 +1,14 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.application")
 }
 
-<<<<<<< Updated upstream
-=======
 val properties = Properties().apply {
     load(FileInputStream("local.properties"))
 }
 
->>>>>>> Stashed changes
 android {
     namespace = "com.jj.timecapsule"
     compileSdk = 34
@@ -21,12 +21,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-<<<<<<< Updated upstream
-=======
 
         // AndroidManifest.xml 에서 local.properties 의 API_KEY 참조 가능하도록 설정
         manifestPlaceholders["MAPS_API_KEY"] = properties.getProperty("API_KEY")
->>>>>>> Stashed changes
     }
 
     buildTypes {

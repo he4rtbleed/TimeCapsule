@@ -1,16 +1,34 @@
 package com.jj.timecapsule;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-public class LoginActivity extends AppCompatActivity {
+import org.json.JSONException;
+import org.json.JSONObject;
 
-    private EditText editTextLoginEmail;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
+
+public class LoginActivity extends AppCompatActivity {
+    private EditText editTextLoginUserId;
     private EditText editTextLoginPassword;
     private Button buttonLogin;
     private Button buttonSignup;
@@ -21,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
 
         setContentView(R.layout.login_page);
 
-        editTextLoginEmail = findViewById(R.id.editTextLoginUserId);
+        editTextLoginUserId = findViewById(R.id.editTextLoginUserId);
         editTextLoginPassword = findViewById(R.id.editTextLoginPassword);
         buttonLogin = findViewById(R.id.buttonLogin);
         buttonSignup = findViewById(R.id.buttonSignup);
@@ -29,7 +47,14 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginUser();
+                String email = editTextLoginUserId.getText().toString();
+                String password = editTextLoginPassword.getText().toString();
+
+                if (email.isEmpty() || password.isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "회원ID 혹은 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                } else {
+                    new LoginUser().execute(email, password);
+                }
             }
         });
 
@@ -42,13 +67,13 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void loginUser() {
-        String email = editTextLoginEmail.getText().toString();
-        String password = editTextLoginPassword.getText().toString();
+    private class LoginUser extends AsyncTask<String, Void, String> {
 
+        @Override
+        protected String doInBackground(String... params) {
+            String userId = params[0];
+            String password = params[1];
 
-<<<<<<< Updated upstream
-=======
             HashMap<String, String> postDataParams = new HashMap<>();
             postDataParams.put("email", userId);
             postDataParams.put("password", password);
@@ -134,6 +159,5 @@ public class LoginActivity extends AppCompatActivity {
 
             return result.toString();
         }
->>>>>>> Stashed changes
     }
 }
