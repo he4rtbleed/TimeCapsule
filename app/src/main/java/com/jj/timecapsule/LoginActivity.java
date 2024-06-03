@@ -47,5 +47,93 @@ public class LoginActivity extends AppCompatActivity {
         String password = editTextLoginPassword.getText().toString();
 
 
+<<<<<<< Updated upstream
+=======
+            HashMap<String, String> postDataParams = new HashMap<>();
+            postDataParams.put("email", userId);
+            postDataParams.put("password", password);
+
+            return performPostCall("http://10.0.2.2/login.php", postDataParams);
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            try {
+                JSONObject jsonObject = new JSONObject(result);
+                String status = jsonObject.getString("status");
+                String message = jsonObject.getString("message");
+
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+
+                if (status.equals("success")) {
+                    // 로그인 성공 시 메인 액티비티 이동
+                    SharedPreferences sharedPreferences = getSharedPreferences("com.jj.timecapsule.PREFERENCE_FILE_KEY", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("TOKEN", editTextLoginUserId.getText().toString());
+                    editor.apply();
+
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), "Login failed", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        private String performPostCall(String requestURL, HashMap<String, String> postDataParams) {
+            URL url;
+            String response = "";
+            try {
+                url = new URL(requestURL);
+
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(15000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream(), "UTF-8"));
+                writer.write(getPostDataString(postDataParams));
+                writer.flush();
+                writer.close();
+
+                int responseCode = conn.getResponseCode();
+                Log.d("HTTPResponseCode", String.valueOf(responseCode)); // HTTP 응답 코드 로그 출력
+
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    String line;
+                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    while ((line = br.readLine()) != null) {
+                        response += line;
+                    }
+                } else {
+                    response = "";
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return response;
+        }
+        private String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
+            StringBuilder result = new StringBuilder();
+            boolean first = true;
+            for (Map.Entry<String, String> entry : params.entrySet()) {
+                if (first)
+                    first = false;
+                else
+                    result.append("&");
+
+                result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
+                result.append("=");
+                result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+            }
+
+            return result.toString();
+        }
+>>>>>>> Stashed changes
     }
 }

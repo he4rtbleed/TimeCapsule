@@ -2,6 +2,13 @@ plugins {
     id("com.android.application")
 }
 
+<<<<<<< Updated upstream
+=======
+val properties = Properties().apply {
+    load(FileInputStream("local.properties"))
+}
+
+>>>>>>> Stashed changes
 android {
     namespace = "com.jj.timecapsule"
     compileSdk = 34
@@ -14,6 +21,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+<<<<<<< Updated upstream
+=======
+
+        // AndroidManifest.xml 에서 local.properties 의 API_KEY 참조 가능하도록 설정
+        manifestPlaceholders["MAPS_API_KEY"] = properties.getProperty("API_KEY")
+>>>>>>> Stashed changes
     }
 
     buildTypes {
@@ -32,12 +45,14 @@ android {
 }
 
 dependencies {
-
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.8.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.android.gms:play-services-maps:18.2.0")
     implementation("com.google.android.gms:play-services-location:21.2.0")
+    implementation("com.squareup.okhttp3:okhttp:4.9.3")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
+    implementation("com.android.volley:volley:1.2.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
