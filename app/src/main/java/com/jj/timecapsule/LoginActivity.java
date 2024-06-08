@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
             postDataParams.put("email", userId);
             postDataParams.put("password", password);
 
-            return performPostCall("http://10.0.2.2/login.php", postDataParams);
+            return performPostCall("http://sm-janela.p-e.kr/login.php", postDataParams);
         }
 
         @Override

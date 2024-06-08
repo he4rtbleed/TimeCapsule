@@ -8,6 +8,8 @@
         <item name="android:windowActionBar">false</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
+        <!-- 폰트 설정 추가 -->
+        <item name="android:fontFamily">@font/nanumsquareneo</item>
     </style>
 
     <style name="Theme.TimeCapsule" parent="Base.Theme.TimeCapsule" />

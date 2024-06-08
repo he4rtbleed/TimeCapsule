@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,6 +38,8 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText editTextNickname;
     private EditText editTextPhone;
     private Button buttonRegister;
+
+    private static final String TAG = "RegisterActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,10 +94,12 @@ public class RegisterActivity extends AppCompatActivity {
         if (!password.equals(confirmPassword)) {
             // 비밀번호와 비밀번호 확인이 같지 않을 경우
             Toast.makeText(getApplicationContext(), "비밀번호가 일치 하지 않습니다.", Toast.LENGTH_LONG).show();
+            Log.d(TAG, "비밀번호가 일치하지 않습니다.");
         }
         else if (userId.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() ||
-        name.isEmpty() || age.isEmpty() || gender.isEmpty() || nickname.isEmpty() || phone.isEmpty()) {
+                name.isEmpty() || age.isEmpty() || gender.isEmpty() || nickname.isEmpty() || phone.isEmpty()) {
             Toast.makeText(getApplicationContext(), "모든 항목을 채워주세요.", Toast.LENGTH_LONG).show();
+            Log.d(TAG, "모든 항목을 채워주세요.");
         }
         else {
             new RegisterUser().execute(userId, password, name, age, gender, nickname, phone);
@@ -114,11 +119,13 @@ public class RegisterActivity extends AppCompatActivity {
             String phone = params[6];
 
             try {
-                URL url = new URL("http://10.0.2.2/register.php");
+                URL url = new URL("http://sm-janela.p-e.kr/Register.php");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setDoOutput(true);
                 conn.setDoInput(true);
+
+                Log.d(TAG, "연결 성공: " + url.toString());
 
                 HashMap<String, String> postDataParams = new HashMap<>();
                 postDataParams.put("email", email);
@@ -134,6 +141,8 @@ public class RegisterActivity extends AppCompatActivity {
                 writer.flush();
                 writer.close();
 
+                Log.d(TAG, "데이터 전송: " + postDataParams.toString());
+
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 StringBuilder sb = new StringBuilder();
                 String line;
@@ -146,6 +155,7 @@ public class RegisterActivity extends AppCompatActivity {
                 return sb.toString();
 
             } catch (Exception e) {
+                Log.e(TAG, "오류 발생", e);
                 e.printStackTrace();
                 return null;
             }
@@ -171,6 +181,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
+            Log.d(TAG, "서버 응답: " + result);
             try {
                 JSONObject jsonObject = new JSONObject(result);
                 String status = jsonObject.getString("status");
@@ -184,6 +195,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
             } catch (JSONException e) {
+                Log.e(TAG, "JSON 파싱 오류", e);
                 e.printStackTrace();
                 Toast.makeText(RegisterActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }

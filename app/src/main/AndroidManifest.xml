@@ -40,12 +40,13 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".CapsuleWriterActivity" />
-
+        <activity android:name=".CapsuleDetailActivity" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
         <uses-library android:name="org.apache.http.legacy" android:required="false"/>
 
     </application>
+
 
 </manifest>

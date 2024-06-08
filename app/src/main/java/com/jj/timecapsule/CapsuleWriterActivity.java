@@ -56,6 +56,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+// 패키지 및 import 문은 생략
+
 public class CapsuleWriterActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final int REQUEST_IMAGE_PICK = 2;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
@@ -81,6 +83,7 @@ public class CapsuleWriterActivity extends AppCompatActivity implements OnMapRea
     BottomSheetBehavior<LinearLayout> bottomSheetBehavior;
     private EditText editTextTitle;
     private EditText editTextContent;
+    private EditText editTextOtherUserEmails; // 다른 사용자 이메일 입력 필드 추가
     private Button buttonPickImage;
     private Button buttonPickDate;
     private Button buttonSaveCapsule;
@@ -265,6 +268,7 @@ public class CapsuleWriterActivity extends AppCompatActivity implements OnMapRea
 
         editTextTitle = findViewById(R.id.editTextTitle);
         editTextContent = findViewById(R.id.editTextContent);
+        editTextOtherUserEmails = findViewById(R.id.editTextOtherUserEmails); // 다른 사용자 이메일 입력 필드 초기화
         buttonPickImage = findViewById(R.id.buttonPickImage);
         buttonPickDate = findViewById(R.id.buttonPickDate);
         buttonSaveCapsule = findViewById(R.id.buttonSaveCapsule);
@@ -344,9 +348,11 @@ public class CapsuleWriterActivity extends AppCompatActivity implements OnMapRea
                 }, year, month, day);
         datePickerDialog.show();
     }
+
     private void saveCapsule() {
         String title = editTextTitle.getText().toString().trim();
         String content = editTextContent.getText().toString().trim();
+        String otherUserEmails = editTextOtherUserEmails.getText().toString().trim(); // 다른 사용자 이메일 가져오기
 
         Log.d("CapsuleWriterActivity", "Title: " + title);
         Log.d("CapsuleWriterActivity", "Content: " + content);
@@ -354,6 +360,7 @@ public class CapsuleWriterActivity extends AppCompatActivity implements OnMapRea
         Log.d("CapsuleWriterActivity", "Selected date: " + selectedDate);
         Log.d("CapsuleWriterActivity", "Selected image path: " + selectedImagePath);
         Log.d("CapsuleWriterActivity", "user_email: " + token);
+        Log.d("CapsuleWriterActivity", "other_user_emails: " + otherUserEmails); // 로그에 다른 사용자 이메일 추가
 
         if (title.isEmpty() || content.isEmpty() || selectedLocation == null || selectedDate == null || selectedImagePath == null) {
             Toast.makeText(this, "모든 필드를 작성해주세요.", Toast.LENGTH_SHORT).show();
@@ -362,10 +369,21 @@ public class CapsuleWriterActivity extends AppCompatActivity implements OnMapRea
 
         // 서버에 타임캡슐 데이터 전송
         uploadCapsule(title, content, selectedImagePath, selectedLocation.latitude, selectedLocation.longitude, selectedDate, token);
+
+        // 다른 사용자들에게 타임캡슐 복사 전송
+        if (!otherUserEmails.isEmpty()) {
+            String[] otherEmails = otherUserEmails.split(",");
+            for (String email : otherEmails) {
+                email = email.trim();
+                if (!email.isEmpty()) {
+                    uploadCapsule(title, content, selectedImagePath, selectedLocation.latitude, selectedLocation.longitude, selectedDate, email);
+                }
+            }
+        }
     }
 
-    private void uploadCapsule(String title, String content, String imagePath, double latitude, double longitude, String date, String token) {
-        String serverUrl = "http://10.0.2.2/insert_timecapsule.php";
+    private void uploadCapsule(String title, String content, String imagePath, double latitude, double longitude, String date, String userEmail) {
+        String serverUrl = "http://sm-janela.p-e.kr/insert_timecapsule.php";
 
         // 보낼 데이터를 저장할 Map 생성
         Map<String, String> stringParams = new HashMap<>();
@@ -374,7 +392,7 @@ public class CapsuleWriterActivity extends AppCompatActivity implements OnMapRea
         stringParams.put("latitude", String.valueOf(latitude));
         stringParams.put("longitude", String.valueOf(longitude));
         stringParams.put("target_date", date);
-        stringParams.put("user_email", token);
+        stringParams.put("user_email", userEmail);
 
         if (imagePath != null) {
             try {
